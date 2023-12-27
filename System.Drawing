@@ -1,0 +1,32 @@
+using System;
+using System.Drawing;
+
+class ImageProcessing {
+    static void Main() {
+        string imagePath = "example.jpg";
+        Bitmap image = new Bitmap(imagePath);
+
+        int width = image.Width;
+        int height = image.Height;
+        Console.WriteLine($"Image width: {width}, height: {height}");
+
+        Bitmap grayImage = Grayscale(image);
+        grayImage.Save("grayscale_example.jpg");
+        Console.WriteLine("Image converted to grayscale.");
+    }
+
+    static Bitmap Grayscale(Bitmap image) {
+        Bitmap grayscaleImage = new Bitmap(image.Width, image.Height);
+
+        for (int y = 0; y < image.Height; y++) {
+            for (int x = 0; x < image.Width; x++) {
+                Color pixelColor = image.GetPixel(x, y);
+                int grayValue = (int)(pixelColor.R * 0.3 + pixelColor.G * 0.59 + pixelColor.B * 0.11);
+                Color grayColor = Color.FromArgb(grayValue, grayValue, grayValue);
+                grayscaleImage.SetPixel(x, y, grayColor);
+            }
+        }
+
+        return grayscaleImage;
+    }
+}
